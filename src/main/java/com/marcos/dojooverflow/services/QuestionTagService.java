@@ -1,30 +1,18 @@
 package com.marcos.dojooverflow.services;
 
-import com.marcos.dojooverflow.models.Question;
-import com.marcos.dojooverflow.models.Tag;
-import com.marcos.dojooverflow.repositories.QuestionRepostory;
-import com.marcos.dojooverflow.repositories.TagRepository;
+import com.marcos.dojooverflow.models.TagQuestion;
+import com.marcos.dojooverflow.repositories.TagQuestionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionTagService{
-    private final QuestionRepostory questionRepository;
-    private final TagRepository tagRepository;
+    private final TagQuestionRepository questionTagRepository;
 
-
-    public QuestionTagService(QuestionRepostory questionRepository, TagRepository tagRepository) {
-        this.questionRepository = questionRepository;
-        this.tagRepository = tagRepository;
+    public QuestionTagService(TagQuestionRepository questionTagRepository) {
+        this.questionTagRepository = questionTagRepository;
     }
 
-    public void addTagToQuestion(Long questionId, Long tagId) {
-        Question question = (Question) questionRepository.findById(questionId).orElse(null);
-        Tag tag = (Tag) tagRepository.findById(tagId).orElse(null);
-
-        if (question != null && tag != null) {
-            question.getTags().add(tag);
-            questionRepository.save(question);
-        }
+    public TagQuestion guardadQuestionTag(TagQuestion tagQuestion){
+        return questionTagRepository.save(tagQuestion);
     }
 }
-

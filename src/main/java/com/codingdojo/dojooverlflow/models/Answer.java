@@ -1,4 +1,4 @@
-package com.marcos.dojooverflow.models;
+package com.codingdojo.dojooverlflow.models;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -6,12 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "questions_tags")
-public class TagQuestion {
+@Table(name = "answers")
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String answer;
     @Column(updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
@@ -22,11 +22,7 @@ public class TagQuestion {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
-
-    public TagQuestion() {
+    public Answer() {
     }
 
     public Long getId() {
@@ -35,6 +31,14 @@ public class TagQuestion {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Date getCreatedAt() {
@@ -60,15 +64,6 @@ public class TagQuestion {
     public void setQuestion(Question question) {
         this.question = question;
     }
-
-    public Tag getTag() {
-        return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
-
     @PrePersist
     protected void onCreate(){
         this.createdAt = new Date();

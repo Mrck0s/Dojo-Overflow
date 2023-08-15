@@ -4,6 +4,8 @@ import com.marcos.dojooverflow.models.Answer;
 import com.marcos.dojooverflow.repositories.AnswerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
@@ -14,6 +16,10 @@ public class AnswerService {
 
     public Answer createAnswer(Answer answer) {
         return answerRepository.save(answer);
+    }
+
+    public List<Answer> getAnswerByQuestion(Long questionId){
+        return answerRepository.findAllByQuestionId(questionId);
     }
 
 }

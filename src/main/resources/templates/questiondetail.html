@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${questionDetallada.question}"></title>
+    <link rel="stylesheet" href="/questiondetail.css">
+</head>
+<body>
+<h1 th:text="${questionDetallada.question}"></h1>
+<h3>Tags: <span th:each="tag : ${questionDetallada.getTags()}" th:text="${tag.subject}"></span></h3>
+<h3>Add your answer:</h3>
+<p th:each="answer : ${listaDeAnswers}" th:text="${answer.answer}"></p>
+
+<form th:action="@{/questions/{id}(id=${questionDetallada.id})}" method="POST" th:object="${answerForm}">
+    <label>Answer:
+        <textarea cols="30" rows="10" th:field="*{answer}"></textarea>
+    </label>
+
+    <input type="submit" value="Responder">
+</form>
+<a href="/">Volver al index</a>
+</body>
+</html>

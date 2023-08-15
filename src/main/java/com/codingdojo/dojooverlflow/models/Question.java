@@ -1,32 +1,37 @@
-package com.marcos.dojooverflow.models;
+package com.codingdojo.dojooverlflow.models;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "questions_tags")
-public class TagQuestion {
+@Table(name = "questions")
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String question;
     @Column(updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "questions_tags",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<Answer> answers;
 
-    public TagQuestion() {
+    public Question() {
     }
 
     public Long getId() {
@@ -35,6 +40,14 @@ public class TagQuestion {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public Date getCreatedAt() {
@@ -53,20 +66,12 @@ public class TagQuestion {
         this.updatedAt = updatedAt;
     }
 
-    public Question getQuestion() {
-        return question;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
-    public Tag getTag() {
-        return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @PrePersist

@@ -1,4 +1,4 @@
-package com.marcos.dojooverflow.models;
+package com.codingdojo.dojooverlflow.models;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "questions_tags")
-public class TagQuestion {
+public class QuestionTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class TagQuestion {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    public TagQuestion() {
+    public QuestionTag() {
     }
 
     public Long getId() {

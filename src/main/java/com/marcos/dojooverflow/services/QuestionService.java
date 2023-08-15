@@ -4,9 +4,6 @@ import com.marcos.dojooverflow.models.Question;
 import com.marcos.dojooverflow.repositories.QuestionRepostory;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.List;
-
 @Service
 public class QuestionService {
     private final QuestionRepostory questionRepostory;
@@ -20,5 +17,9 @@ public class QuestionService {
 
     public Question createQuestion(Question question) {
        return (Question) questionRepostory.save(question);
+    }
+
+    public Question getQuestionById(Long id) {
+        return (Question) questionRepostory.findById(id).orElse(null);
     }
 }

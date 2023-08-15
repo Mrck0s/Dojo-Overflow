@@ -1,16 +1,20 @@
-package com.marcos.dojooverflow.models;
+package com.codingdojo.dojooverlflow.models;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "questions_tags")
-public class TagQuestion {
+@Table(name = "tags")
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String subject;
 
     @Column(updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -18,23 +22,31 @@ public class TagQuestion {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
+    //Relación con la tabla n:m
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "questions_tags",
+            joinColumns = @JoinColumn(name = "tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private List<Question> questions;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
-
-    public TagQuestion() {
+    public Tag() {
     }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public Date getCreatedAt() {
@@ -53,21 +65,14 @@ public class TagQuestion {
         this.updatedAt = updatedAt;
     }
 
-    public Question getQuestion() {
-        return question;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
-    public Tag getTag() {
-        return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
 
     @PrePersist
     protected void onCreate(){
